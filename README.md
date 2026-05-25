@@ -43,16 +43,6 @@ Follow these steps to run MailForge on your computer. You will need a few free a
   <tr>
     <td width="48" valign="top" align="center">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
-        <polyline points="10 17 15 12 10 7"/>
-        <line x1="15" y1="12" x2="3" y2="12"/>
-      </svg>
-    </td>
-    <td><strong>Git</strong> — to download the code.<br />Download from <a href="https://git-scm.com">git-scm.com</a>.</td>
-  </tr>
-  <tr>
-    <td width="48" valign="top" align="center">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
         <polyline points="7 10 12 15 17 10"/>
         <line x1="12" y1="15" x2="12" y2="3"/>
@@ -62,19 +52,19 @@ Follow these steps to run MailForge on your computer. You will need a few free a
   </tr>
 </table>
 
+> You should already have the project folder on your computer — either by downloading the ZIP file or by receiving it from your team. If not, ask your team for a copy of the `email-template-management` folder.
+
 <br />
 
-### Step 1 — Download the code
+### Step 1 — Open the project folder
 
-Open your terminal (Command Prompt on Windows, Terminal on Mac).
+Open your terminal (Command Prompt on Windows, Terminal on Mac) and navigate to the project folder:
 
 ```bash
-# Download the project
-git clone <repository-url>
-cd email-template-management
+cd path/to/email-template-management
 ```
 
-> If you received a ZIP file instead, unzip it and navigate into the folder using the terminal.
+> Replace `path/to/` with the actual location of the folder on your computer. For example: `cd Desktop/email-template-management`
 
 <br />
 
@@ -137,8 +127,8 @@ OpenRouter powers the AI assistant.
 ### Step 7 — Configure the app
 
 1. In the MailForge folder, find the file named `.env.example`.
-2. Create a copy of this file and name it `.env.local`.
-3. Open `.env.local` in a text editor and fill in the values you copied:
+2. Create a copy of this file and name it `.env`.
+3. Open `.env` in a text editor and fill in the values you copied:
 
 ```bash
 # Supabase (from Step 4)
@@ -334,7 +324,7 @@ email-template-management/
         <line x1="12" y1="16" x2="12.01" y2="16"/>
       </svg>
     </td>
-    <td><strong>"OPENROUTER_API_KEY not configured"</strong> — Set your OpenRouter key in <code>.env.local</code> and restart the app.</td>
+    <td><strong>"OPENROUTER_API_KEY not configured"</strong> — Set your OpenRouter key in <code>.env</code> and restart the app.</td>
   </tr>
   <tr>
     <td width="32" valign="top">
