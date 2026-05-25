@@ -54,7 +54,6 @@ export function SignupForm() {
             type="email"
             autoComplete="email"
             placeholder="you@company.com"
-            className="h-10"
             {...form.register("email")}
           />
           {form.formState.errors.email && (
@@ -69,7 +68,6 @@ export function SignupForm() {
             type="password"
             autoComplete="new-password"
             placeholder="At least 8 characters"
-            className="h-10"
             {...form.register("password")}
           />
           {form.formState.errors.password && (
@@ -84,7 +82,7 @@ export function SignupForm() {
         </div>
       )}
 
-      <Button className="h-10 w-full" type="submit" disabled={isPending}>
+      <Button className="w-full" type="submit" disabled={isPending}>
         {isPending ? (
           <span className="flex items-center gap-2">
             <Loader2Icon className="size-4 animate-spin" />

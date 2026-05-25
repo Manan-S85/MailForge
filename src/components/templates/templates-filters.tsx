@@ -2,6 +2,7 @@
 
 import { useMemo, useTransition } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { SearchIcon, RotateCcwIcon } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -43,10 +44,12 @@ export function TemplatesFilters({
 
   return (
     <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-      <div className="flex-1">
+      <div className="relative flex-1">
+        <SearchIcon className="absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
         <Input
           defaultValue={q}
-          placeholder="Search templates by name or subject..."
+          placeholder="Search templates..."
+          className="pl-8"
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               const value = (e.currentTarget.value ?? "").trim();
@@ -58,7 +61,7 @@ export function TemplatesFilters({
 
       <div className="flex gap-2">
         <Select value={status} onValueChange={(v) => setParam("status", v)}>
-          <SelectTrigger className="w-44">
+          <SelectTrigger className="w-36">
             <SelectValue placeholder="Status" />
           </SelectTrigger>
           <SelectContent>
@@ -70,7 +73,7 @@ export function TemplatesFilters({
         </Select>
 
         <Select value={category} onValueChange={(v) => setParam("category", v)}>
-          <SelectTrigger className="w-52">
+          <SelectTrigger className="w-44">
             <SelectValue placeholder="Category" />
           </SelectTrigger>
           <SelectContent>
@@ -83,13 +86,14 @@ export function TemplatesFilters({
         </Select>
 
         <Button
-          variant="secondary"
+          variant="ghost"
+          size="icon"
           disabled={isPending}
           onClick={() => {
             startTransition(() => router.replace("/dashboard/templates"));
           }}
         >
-          Clear
+          <RotateCcwIcon className="size-4" />
         </Button>
       </div>
     </div>

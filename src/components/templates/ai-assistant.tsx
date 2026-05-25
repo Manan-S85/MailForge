@@ -14,18 +14,11 @@ import {
   LanguagesIcon,
   RotateCcwIcon,
   Loader2Icon,
-  PanelRightOpenIcon,
-  XIcon,
   PlusIcon,
+  XIcon,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
@@ -133,136 +126,140 @@ export function AiAssistant({
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="outline" className="gap-2">
-          <SparklesIcon className="size-4" />
-          AI assistant
+        <Button variant="outline" size="sm">
+          <SparklesIcon className="size-3.5" />
+          AI
         </Button>
       </SheetTrigger>
-      <SheetContent side="right" className="flex w-full flex-col sm:max-w-lg">
-        <SheetHeader className="shrink-0">
-          <SheetTitle className="flex items-center gap-2">
-            <SparklesIcon className="size-5" />
+      <SheetContent side="right" className="flex w-full flex-col p-0 sm:max-w-md">
+        <SheetHeader className="shrink-0 border-b px-4 py-3">
+          <SheetTitle className="flex items-center gap-2 text-sm">
+            <SparklesIcon className="size-4" />
             AI assistant
           </SheetTitle>
         </SheetHeader>
 
-        <div className="flex flex-1 flex-col gap-4 overflow-hidden py-4">
-          <ScrollArea className="flex-1">
-            <div className="space-y-4 pr-4">
-              <div>
-                <div className="mb-2 text-sm font-medium">Quick actions</div>
-                <div className="grid grid-cols-2 gap-2">
-                  {quickActions.map((qa) => (
-                    <Button
-                      key={qa.action}
-                      variant="outline"
-                      size="sm"
-                      className="h-auto justify-start gap-2 py-2 text-xs"
-                      disabled={isPending}
-                      onClick={() => handleAction(qa.action)}
-                    >
-                      <qa.icon className="size-3.5 shrink-0" />
-                      <span className="truncate">{qa.label}</span>
-                    </Button>
-                  ))}
-                </div>
-              </div>
-
-              <Separator />
-
-              <div className="space-y-3">
-                <div className="space-y-1">
-                  <div className="text-sm font-medium">Tone</div>
-                  <Select
-                    value={selectedTone}
-                    onValueChange={(v) => setSelectedTone(v as AiTone)}
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {tones.map((t) => (
-                        <SelectItem key={t.value} value={t.value}>
-                          {t.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-1">
-                  <div className="text-sm font-medium">
-                    Custom instructions{" "}
-                    <span className="text-xs text-muted-foreground">
-                      (optional)
-                    </span>
-                  </div>
-                  <Textarea
-                    placeholder="e.g. Focus on the value proposition..."
-                    value={customPrompt}
-                    onChange={(e) => setCustomPrompt(e.target.value)}
-                    className="min-h-[80px] text-sm"
-                  />
-                </div>
-              </div>
-
-              <Separator />
-
-              {isPending ? (
-                <Card>
-                  <CardContent className="flex items-center justify-center py-8">
-                    <div className="flex flex-col items-center gap-2 text-sm text-muted-foreground">
-                      <Loader2Icon className="size-6 animate-spin" />
-                      AI is working...
-                    </div>
-                  </CardContent>
-                </Card>
-              ) : result ? (
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between py-3">
-                    <CardTitle className="text-sm font-medium">
-                      Result
-                    </CardTitle>
-                    <div className="flex gap-1">
-                      <Button
-                        size="sm"
-                        onClick={handleApply}
-                        className="gap-1"
-                      >
-                        <PlusIcon className="size-3.5" />
-                        Apply
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={clearResult}
-                      >
-                        <XIcon className="size-3.5" />
-                      </Button>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    {result.subject ? (
-                      <div className="mb-3 rounded-md bg-muted p-3 text-sm">
-                        <div className="text-xs font-medium text-muted-foreground">
-                          Subject
-                        </div>
-                        <div className="mt-1 font-medium">
-                          {result.subject}
-                        </div>
-                      </div>
-                    ) : null}
-                    <div
-                      className="prose prose-sm max-w-none rounded-md border bg-card p-3 dark:prose-invert"
-                      dangerouslySetInnerHTML={{
-                        __html: result.content,
-                      }}
-                    />
-                  </CardContent>
-                </Card>
-              ) : null}
+        {/* Fixed top: actions + tone + prompt */}
+        <div className="shrink-0 space-y-4 border-b px-4 py-4">
+          <div>
+            <div className="mb-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+              Quick actions
             </div>
-          </ScrollArea>
+            <div className="grid grid-cols-2 gap-1.5">
+              {quickActions.map((qa) => (
+                <button
+                  key={qa.action}
+                  disabled={isPending}
+                  onClick={() => handleAction(qa.action)}
+                  className="flex items-center gap-2 rounded-lg border bg-card px-2.5 py-2 text-left text-xs transition-colors hover:bg-accent disabled:pointer-events-none disabled:opacity-50"
+                >
+                  <qa.icon className="size-3.5 shrink-0 text-muted-foreground" />
+                  <div>
+                    <div className="font-medium text-foreground">{qa.label}</div>
+                    <div className="text-muted-foreground">{qa.description}</div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <div>
+              <div className="mb-1.5 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                Tone
+              </div>
+              <Select
+                value={selectedTone}
+                onValueChange={(v) => setSelectedTone(v as AiTone)}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {tones.map((t) => (
+                    <SelectItem key={t.value} value={t.value}>
+                      {t.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-1.5">
+              <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                Custom instructions
+              </div>
+              <Textarea
+                placeholder="e.g. Focus on the value proposition..."
+                value={customPrompt}
+                onChange={(e) => setCustomPrompt(e.target.value)}
+                className="min-h-[72px] text-sm"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Scrollable result area */}
+        <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">
+          {isPending && (
+            <div className="flex items-center justify-center rounded-lg border bg-card py-8">
+              <div className="flex flex-col items-center gap-2 text-sm text-muted-foreground">
+                <Loader2Icon className="size-5 animate-spin" />
+                AI is working...
+              </div>
+            </div>
+          )}
+
+          {result && !isPending && (
+            <div className="m-4 rounded-lg border bg-card">
+              <div className="flex items-center justify-between border-b px-3 py-2">
+                <span className="text-xs font-medium">Result</span>
+                <div className="flex gap-1">
+                  <Button size="xs" onClick={handleApply}>
+                    <PlusIcon className="size-3" />
+                    Apply
+                  </Button>
+                  <Button size="xs" variant="ghost" onClick={clearResult}>
+                    <XIcon className="size-3" />
+                  </Button>
+                </div>
+              </div>
+              <div className="p-3">
+                {result.subject && !result.content && (
+                  <div className="space-y-1.5">
+                    <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+                      Subject lines
+                    </div>
+                    {result.subject.split("\n").map((line, i) => {
+                      const cleaned = line.replace(/^\d+[\).]\s*/, "").trim();
+                      if (!cleaned) return null;
+                      return (
+                        <div key={i} className="rounded-md bg-muted px-2.5 py-1.5 text-sm font-medium">
+                          {cleaned}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+                {result.subject && result.content && (
+                  <div className="mb-2 rounded-md bg-muted px-2.5 py-1.5 text-xs">
+                    <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+                      Subject
+                    </div>
+                    <div className="mt-0.5 font-medium">{result.subject}</div>
+                  </div>
+                )}
+                {result.content && (
+                  <div
+                    className="prose prose-xs max-w-none rounded-md text-sm leading-relaxed dark:prose-invert"
+                    dangerouslySetInnerHTML={{
+                      __html: result.content,
+                    }}
+                  />
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </SheetContent>
     </Sheet>

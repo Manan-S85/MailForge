@@ -15,11 +15,11 @@ export default async function NewTemplatePage() {
     : DEFAULT_CATEGORIES.map((c, i) => ({ id: `static-${i}`, name: c.name }));
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-1">
-        <h1 className="text-xl font-semibold">Create template</h1>
+    <div className="mx-auto max-w-lg">
+      <div className="mb-6">
+        <h1 className="text-lg font-semibold">Create template</h1>
         <p className="text-sm text-muted-foreground">
-          Start with a name, then write and preview the email.
+          Give your template a name and category to get started
         </p>
       </div>
 

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PlusIcon, FileTextIcon } from "lucide-react";
 
 import { requireUser } from "@/server/auth";
 import { Button } from "@/components/ui/button";
@@ -85,15 +86,18 @@ export default async function TemplatesPage({
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="space-y-1">
-          <h1 className="text-xl font-semibold">Templates</h1>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-lg font-semibold">Templates</h1>
           <p className="text-sm text-muted-foreground">
-            Create, edit, preview, and test email templates.
+            Create, edit, preview, and test email templates
           </p>
         </div>
         <Button asChild>
-          <Link href="/dashboard/templates/new">New template</Link>
+          <Link href="/dashboard/templates/new">
+            <PlusIcon className="size-4" />
+            New template
+          </Link>
         </Button>
       </div>
 
@@ -102,11 +106,16 @@ export default async function TemplatesPage({
       {dbTemplates !== null && (
         <Card>
           <CardHeader>
-            <CardTitle>All templates</CardTitle>
+            <div className="flex items-center gap-2">
+              <div className="flex size-7 items-center justify-center rounded-md bg-sky-500/10">
+                <FileTextIcon className="size-3.5 text-sky-600 dark:text-sky-400" />
+              </div>
+              <CardTitle>All templates</CardTitle>
+            </div>
           </CardHeader>
           <CardContent>
             {dbError ? (
-              <div className="rounded-md border p-3 text-sm text-muted-foreground">
+              <div className="rounded-lg border px-3 py-2 text-sm text-muted-foreground">
                 {dbError.message}
               </div>
             ) : dbTemplates && dbTemplates.length ? (
@@ -118,22 +127,22 @@ export default async function TemplatesPage({
                     <TableHead>Status</TableHead>
                     <TableHead>Category</TableHead>
                     <TableHead>Updated</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
+                    <TableHead className="w-12" />
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {dbTemplates.map((t: any) => (
                     <TableRow key={t.id}>
-                      <TableCell className="font-medium">
+                      <TableCell>
                         <Link
-                          className="hover:underline"
                           href={`/dashboard/templates/${t.id}`}
+                          className="font-medium hover:text-foreground/80"
                         >
                           {t.name}
                         </Link>
                       </TableCell>
-                      <TableCell className="max-w-[360px] truncate text-muted-foreground">
-                        {t.subject || <span className="text-muted-foreground">—</span>}
+                      <TableCell className="max-w-[300px] truncate text-muted-foreground">
+                        {t.subject || <span className="text-muted-foreground/50">&mdash;</span>}
                       </TableCell>
                       <TableCell>
                         <Badge variant={t.status === "active" ? "default" : "secondary"}>
@@ -141,10 +150,10 @@ export default async function TemplatesPage({
                         </Badge>
                       </TableCell>
                       <TableCell className="text-muted-foreground">
-                        {t.category?.name ?? "—"}
+                        {t.category?.name ?? <span className="text-muted-foreground/50">&mdash;</span>}
                       </TableCell>
                       <TableCell className="text-muted-foreground">
-                        {new Date(t.updated_at).toLocaleString()}
+                        {new Date(t.updated_at).toLocaleDateString()}
                       </TableCell>
                       <TableCell>
                         <TemplateRowActions id={t.id} />
@@ -154,7 +163,7 @@ export default async function TemplatesPage({
                 </TableBody>
               </Table>
             ) : (
-              <div className="py-10 text-center">
+              <div className="flex flex-col items-center py-10 text-center">
                 <div className="text-sm text-muted-foreground">
                   No templates found. Try adjusting your search or filters.
                 </div>
@@ -167,7 +176,17 @@ export default async function TemplatesPage({
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
-            <CardTitle>Prebuilt templates</CardTitle>
+            <div className="flex items-center gap-2">
+              <div className="flex size-7 items-center justify-center rounded-md bg-violet-500/10">
+                <FileTextIcon className="size-3.5 text-violet-600 dark:text-violet-400" />
+              </div>
+              <div>
+                <CardTitle>Prebuilt templates</CardTitle>
+                <p className="mt-0.5 text-sm text-muted-foreground">
+                  Ready-to-use templates to get started quickly
+                </p>
+              </div>
+            </div>
             <SavePrebuiltButton />
           </div>
         </CardHeader>
@@ -185,7 +204,7 @@ export default async function TemplatesPage({
                 {filteredPrebuilt.map((t, i) => (
                   <TableRow key={i}>
                     <TableCell className="font-medium">{t.name}</TableCell>
-                    <TableCell className="max-w-[360px] truncate text-muted-foreground">
+                    <TableCell className="max-w-[300px] truncate text-muted-foreground">
                       {t.subject}
                     </TableCell>
                     <TableCell>

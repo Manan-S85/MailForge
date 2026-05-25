@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -48,10 +48,7 @@ export function NewTemplateForm({
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>New template</CardTitle>
-      </CardHeader>
-      <CardContent>
+      <CardContent className="pt-4">
         <form
           className="space-y-4"
           onSubmit={form.handleSubmit((values) => {
@@ -93,9 +90,11 @@ export function NewTemplateForm({
             </Select>
           </div>
 
-          <Button type="submit" disabled={isPending}>
-            {isPending ? "Creating..." : "Create"}
-          </Button>
+          <div className="flex items-center gap-2 pt-2">
+            <Button type="submit" disabled={isPending}>
+              {isPending ? "Creating..." : "Create template"}
+            </Button>
+          </div>
         </form>
       </CardContent>
     </Card>

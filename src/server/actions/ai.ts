@@ -38,7 +38,7 @@ const actionPrompts: Record<AiAction, string> = {
   generate_cta:
     "Generate a compelling call-to-action button/link for this email. Return just the CTA HTML.",
   generate_subject:
-    "Generate 5 subject line options for this email. Return them as a comma-separated list.",
+    "Generate 5 short, impactful subject line options for this email. Return only the subject lines, one per line, numbered 1-5. Do NOT wrap in HTML or markdown.",
   improve_engagement:
     "Rewrite this email to improve reader engagement. Preserve all {{placeholder}} variables.",
   fix_grammar:
@@ -152,7 +152,13 @@ export async function performAiAction(
     : "professional";
   const actionInstruction = actionPrompts[values.action];
 
-  const systemPrompt = `You are an expert email copywriter for a SaaS company. Your task is: ${actionInstruction}
+  const isSubjectOnly = values.action === "generate_subject";
+
+  const systemPrompt = isSubjectOnly
+    ? `You are an expert email copywriter for a SaaS company. Your task is: ${actionInstruction}
+${values.tone ? `\nTone: ${tone}` : ""}
+IMPORTANT: Do NOT wrap the response in markdown code blocks. Return plain text only, one subject line per line.`
+    : `You are an expert email copywriter for a SaaS company. Your task is: ${actionInstruction}
 ${values.tone ? `\nTone: ${tone}` : ""}
 IMPORTANT: Always preserve {{variable_name}} placeholders exactly as they appear.
 Output valid HTML that can be rendered inside an email body.
@@ -206,6 +212,9 @@ Do not wrap the response in markdown code blocks. Return raw HTML only.`;
       subject = values.currentSubject || "New Email";
     }
 
+    // For generate_subject, return the raw subject lines as content too
+    const returnContent = values.action === "generate_subject" ? "" : content;
+
     await supabase.from("ai_logs").insert({
       owner_id: user.id,
       template_id: values.templateId ?? null,
@@ -226,7 +235,7 @@ Do not wrap the response in markdown code blocks. Return raw HTML only.`;
       tokens_out: result!.tokensOut,
     });
 
-    return { ok: true, data: { content, subject } };
+    return { ok: true, data: { content: returnContent, subject } };
   } catch (err) {
     const message =
       err instanceof Error ? err.message : "AI request failed";

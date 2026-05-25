@@ -21,13 +21,13 @@ export function SavePrebuiltButton() {
   };
 
   return (
-    <Button onClick={handleSave} disabled={isPending} size="sm">
+    <Button onClick={handleSave} disabled={isPending} size="sm" variant="secondary">
       {isPending ? (
-        <Loader2Icon className="mr-1.5 size-4 animate-spin" />
+        <Loader2Icon className="mr-1.5 size-3.5 animate-spin" />
       ) : (
-        <DownloadIcon className="mr-1.5 size-4" />
+        <DownloadIcon className="mr-1.5 size-3.5" />
       )}
-      {isPending ? "Saving..." : "Save to my account"}
+      {isPending ? "Saving..." : "Save to account"}
     </Button>
   );
 }

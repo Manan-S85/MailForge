@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { MoreHorizontalIcon, CopyIcon, Trash2Icon } from "lucide-react";
+import { MoreHorizontalIcon, CopyIcon, Trash2Icon, ExternalLinkIcon } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -36,29 +37,37 @@ export function TemplateRowActions({ id }: { id: string }) {
       <Dialog open={open} onOpenChange={setOpen}>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" disabled={isPending}>
+            <Button variant="ghost" size="icon-xs" disabled={isPending}>
               <MoreHorizontalIcon className="size-4" />
               <span className="sr-only">Actions</span>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent align="end" className="w-40">
             <DropdownMenuItem asChild>
-              <Link href={`/dashboard/templates/${id}`}>Open</Link>
+              <Link href={`/dashboard/templates/${id}`}>
+                <ExternalLinkIcon className="size-4" />
+                Open
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() =>
                 startTransition(async () => {
                   const res = await duplicateTemplate(id);
                   if (res && !res.ok) toast.error(res.message);
+                  else {
+                    toast.success("Template duplicated");
+                    router.refresh();
+                  }
                 })
               }
             >
-              <CopyIcon className="mr-2 size-4" />
+              <CopyIcon className="size-4" />
               Duplicate
             </DropdownMenuItem>
+            <DropdownMenuSeparator />
             <DialogTrigger asChild>
-              <DropdownMenuItem className="text-destructive">
-                <Trash2Icon className="mr-2 size-4" />
+              <DropdownMenuItem variant="destructive">
+                <Trash2Icon className="size-4" />
                 Delete
               </DropdownMenuItem>
             </DialogTrigger>
@@ -69,12 +78,12 @@ export function TemplateRowActions({ id }: { id: string }) {
           <DialogHeader>
             <DialogTitle>Delete template?</DialogTitle>
             <DialogDescription>
-              This cannot be undone.
+              This action cannot be undone. This will permanently delete this template.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="secondary" type="button">
+              <Button variant="outline" type="button">
                 Cancel
               </Button>
             </DialogClose>
