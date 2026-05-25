@@ -17,7 +17,13 @@
 
 <br />
 
+MailForge is a self-hosted email template management platform built for teams that need to create, preview, iterate, and send email content without engineering bottlenecks. It combines a rich WYSIWYG editor with placeholder-aware templating, live previews using mock data, test sends via Resend, and an AI assistant that rewrites and generates copy while preserving your <code>{{placeholders}}</code>.
+
+Whether you are a marketing team designing campaigns, a developer setting up transactional emails, or a product builder shipping onboarding flows, MailForge gives you full control over your email templates — all while keeping your data on your own infrastructure.
+
 ---
+
+<br />
 
 <br />
 
