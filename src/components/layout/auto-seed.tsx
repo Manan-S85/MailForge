@@ -51,7 +51,7 @@ export function AutoSeed({ needsSeed }: { needsSeed: boolean }) {
         <RocketIcon className="size-7" />
       </div>
       <div className="space-y-1 text-center">
-        <h2 className="text-lg font-semibold">Welcome to MailTemplates</h2>
+        <h2 className="text-lg font-semibold">Welcome to MailForge</h2>
         <p className="max-w-sm text-sm text-muted-foreground">
           Load sample templates to see how the app works, or create a blank one.
         </p>
