@@ -288,21 +288,6 @@ email-template-management/
 
 <br />
 
-## Deploying to Vercel (for production)
-
-1. Push your code to a GitHub repository.
-2. Go to <a href="https://vercel.com">vercel.com</a> and sign up with GitHub.
-3. Click **Add new** &rarr; **Project** and select your repository.
-4. In the **Environment Variables** section, add the four keys from Step 7.
-5. Click **Deploy** — Vercel will build and publish your site.
-6. Your app will be live at a `*.vercel.app` URL.
-
-<br />
-
----
-
-<br />
-
 ## Troubleshooting
 
 <table>
