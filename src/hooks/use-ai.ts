@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useCallback } from "react";
 import { toast } from "sonner";
 import type { AiAction, AiTone } from "@/types";
 
@@ -10,10 +10,10 @@ interface AiResult {
 }
 
 export function useAiAssistant() {
-  const [isPending, startTransition] = useTransition();
+  const [isPending, setIsPending] = useState(false);
   const [result, setResult] = useState<AiResult | null>(null);
 
-  const execute = (params: {
+  const execute = useCallback((params: {
     action: AiAction;
     tone?: AiTone;
     currentContent?: string;
@@ -21,7 +21,9 @@ export function useAiAssistant() {
     prompt?: string;
     templateId?: string;
   }) => {
-    startTransition(async () => {
+    setIsPending(true);
+
+    (async () => {
       try {
         const { performAiAction } = await import("@/server/actions/ai");
         const res = await performAiAction(params);
@@ -33,9 +35,13 @@ export function useAiAssistant() {
         }
       } catch {
         toast.error("AI assistant unavailable");
+      } finally {
+        setIsPending(false);
       }
-    });
-  };
+    })();
+  }, []);
 
-  return { execute, result, isPending, clearResult: () => setResult(null) };
+  const clearResult = useCallback(() => setResult(null), []);
+
+  return { execute, result, isPending, clearResult };
 }
