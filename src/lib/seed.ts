@@ -45,10 +45,8 @@ export const SAMPLE_TEMPLATES = [
     subject: "Reset your {{company_name}} password",
     body_html: `<h1>Password reset request</h1>
 <p>Hi {{first_name}},</p>
-<p>We received a request to reset the password for your {{company_name}} account. Click the button below to set a new one:</p>
-<p style="text-align:center">
-  <a href="{{reset_link}}" style="display:inline-block;padding:12px 24px;background-color:#6366f1;color:#fff;text-decoration:none;border-radius:6px;font-weight:600">Reset Password</a>
-</p>
+<p>We received a request to reset the password for your {{company_name}} account. Use the link below to set a new one:</p>
+<p><a href="{{reset_link}}">Reset your password</a></p>
 <p>This link expires in 1 hour. If you didn't request this, you can safely ignore this email.</p>
 <p>Thanks,<br>The {{company_name}} Team</p>`,
     category_name: "Authentication",
@@ -59,10 +57,8 @@ export const SAMPLE_TEMPLATES = [
     subject: "Verify your {{company_name}} email address",
     body_html: `<h1>Verify your email</h1>
 <p>Hi {{first_name}},</p>
-<p>Thanks for creating an account with {{company_name}}. Please verify your email address by clicking the button below:</p>
-<p style="text-align:center">
-  <a href="{{reset_link}}" style="display:inline-block;padding:12px 24px;background-color:#6366f1;color:#fff;text-decoration:none;border-radius:6px;font-weight:600">Verify Email</a>
-</p>
+<p>Thanks for creating an account with {{company_name}}. Please verify your email address by visiting the link below:</p>
+<p><a href="{{reset_link}}">Verify your email address</a></p>
 <p>If you didn't create this account, please ignore this email.</p>
 <p>Best,<br>The {{company_name}} Team</p>`,
     category_name: "Authentication",
@@ -120,10 +116,7 @@ export const SAMPLE_TEMPLATES = [
   <li>New integrations with your favorite tools</li>
   <li>Faster performance and better reliability</li>
 </ul>
-<p>Ready to jump back in?</p>
-<p style="text-align:center">
-  <a href="{{reset_link}}" style="display:inline-block;padding:12px 32px;background-color:#6366f1;color:#fff;text-decoration:none;border-radius:6px;font-weight:600">Go to Dashboard</a>
-</p>
+<p>Ready to jump back in? <a href="{{reset_link}}">Go to your dashboard</a></p>
 <p>See you soon!</p>
 <p>Best,<br>The {{company_name}} Team</p>`,
     category_name: "Marketing",
