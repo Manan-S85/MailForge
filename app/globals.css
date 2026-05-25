@@ -210,6 +210,28 @@ body {
     line-height: 1.5;
     cursor: pointer;
     margin: 0.5rem 0;
+    position: relative;
+  }
+
+  .tiptap-editor a[data-button="true"]::after {
+    content: "CTA";
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 1px 5px;
+    border-radius: 4px;
+    background: #111111;
+    color: #ffffff;
+    line-height: 1.4;
+    pointer-events: none;
+  }
+
+  .dark .tiptap-editor a[data-button="true"]::after {
+    background: #ffffff;
+    color: #111111;
   }
 
   .dark .tiptap-editor a[data-button="true"],

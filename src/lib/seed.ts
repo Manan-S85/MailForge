@@ -9,17 +9,17 @@ export const DEFAULT_CATEGORIES = [
 ];
 
 const DEFAULT_PLACEHOLDERS = [
-  { key: "first_name", description: "User's first name", sample_value: "Manan" },
-  { key: "last_name", description: "User's last name", sample_value: "Shah" },
-  { key: "company_name", description: "Company or product name", sample_value: "MistakeLoop" },
+  { key: "first_name", description: "User's first name", sample_value: "Alex" },
+  { key: "last_name", description: "User's last name", sample_value: "Johnson" },
+  { key: "company_name", description: "Company or product name", sample_value: "AcmeCorp" },
   { key: "plan_name", description: "Subscription plan name", sample_value: "Pro" },
   { key: "plan_price", description: "Plan price", sample_value: "$29/month" },
   { key: "expiry_date", description: "Expiration or due date", sample_value: "Jun 15, 2026" },
-  { key: "support_email", description: "Support contact email", sample_value: "support@mistakeloop.com" },
-  { key: "product_name", description: "Product/service name", sample_value: "MistakeLoop Analytics" },
+  { key: "support_email", description: "Support contact email", sample_value: "support@acmecorp.com" },
+  { key: "product_name", description: "Product/service name", sample_value: "AcmeCorp Analytics" },
   { key: "discount_percent", description: "Discount percentage", sample_value: "30%" },
   { key: "coupon_code", description: "Coupon or promo code", sample_value: "WELCOME30" },
-  { key: "reset_link", description: "Password reset URL", sample_value: "https://app.mistakeloop.com/reset?token=abc123" },
+  { key: "reset_link", description: "Password reset URL", sample_value: "https://app.acmecorp.com/reset?token=abc123" },
   { key: "current_year", description: "Current year", sample_value: "2026" },
 ];
 
