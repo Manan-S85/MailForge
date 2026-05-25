@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
@@ -22,12 +23,15 @@ export async function signInWithPassword(formData: FormData) {
 export async function signUp(formData: FormData) {
   const email = String(formData.get("email") ?? "").trim();
   const password = String(formData.get("password") ?? "");
+  const host = (await headers()).get("host") ?? "localhost:3000";
+  const protocol = host.includes("localhost") ? "http" : "https";
+  const origin = `${protocol}://${host}`;
 
   const supabase = await createSupabaseServerClient();
   const { error } = await supabase.auth.signUp({
     email,
     password,
-    options: { emailRedirectTo: "/dashboard" },
+    options: { emailRedirectTo: `${origin}/auth/callback` },
   });
 
   if (error) {
