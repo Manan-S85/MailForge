@@ -1,240 +1,374 @@
-# MailForge
+<p align="center">
+  <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="48" height="48" rx="12" fill="#111111"/>
+    <path d="M14 18C14 16.8954 14.8954 16 16 16H32C33.1046 16 34 16.8954 34 18V30C34 31.1046 33.1046 32 32 32H16C14.8954 32 14 31.1046 14 30V18Z" stroke="white" stroke-width="1.5" fill="none"/>
+    <path d="M14 20L24 26L34 20" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M20 28H28" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M20 24H24" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+  </svg>
+</p>
 
-MailForge is a modern, secure **email template management platform** built for teams that need to create, preview, iterate, and safely send email content without engineering bottlenecks.
+<h1 align="center">MailForge</h1>
 
-It combines a **rich WYSIWYG editor** (Tiptap) with **placeholder-aware templating**, **live previews using mock data**, **test sends via Resend**, and an **AI assistant** (OpenRouter) that rewrites and generates copy while preserving your `{{placeholders}}`.
+<p align="center">
+  A modern email template management platform — create, preview, and send<br />
+  beautiful email templates with AI-powered assistance.
+</p>
 
----
-
-## What you can do
-
-- **Authenticate users** (Supabase Auth) with email/password.
-- **Create and manage templates** with status (`draft`, `active`, `archived`) and optional categories.
-- **Edit rich email content** (headings, lists, links, underline, tables, code blocks, images).
-- **Use placeholders** like `{{first_name}}` and preview how emails render with JSON mock data.
-- **Generate or rewrite content with AI** (tone-aware actions; placeholders preserved).
-- **Send test emails** via Resend and track send history.
-- **Seed sample data** (categories, placeholders, templates) per user to get started fast.
-
----
-
-## Tech stack
-
-- **App**: Next.js (App Router) + React
-- **UI**: Tailwind CSS + shadcn/ui components
-- **Database/Auth**: Supabase (Postgres + RLS, Supabase Auth)
-- **Editor**: Tiptap (rich text) + custom placeholder extensions
-- **Email delivery**: Resend (test sends)
-- **AI**: OpenRouter (chat completions with fallback free models)
+<br />
 
 ---
 
-## Product architecture (high level)
+<br />
 
-MailForge is a server-rendered Next.js application. Supabase is used in two ways:
+## Getting Started locally
 
-- **Server components / server actions** use a Supabase server client wired to Next.js cookies.
-- **Row Level Security (RLS)** enforces that each authenticated user can only access their own rows.
+Follow these steps to run MailForge on your computer. You will need a few free accounts — the guide below walks you through everything.
 
-Email content is treated as **untrusted input** and is sanitized before storage and before rendering.
+<br />
 
----
+### What you will need
 
-## Routes and user flows
+<table>
+  <tr>
+    <td width="48" valign="top" align="center">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+        <path d="M2 17l10 5 10-5"/>
+        <path d="M2 12l10 5 10-5"/>
+      </svg>
+    </td>
+    <td><strong>Node.js</strong> — the engine that runs the app.<br />Download from <a href="https://nodejs.org">nodejs.org</a> (install the LTS version).</td>
+  </tr>
+  <tr>
+    <td width="48" valign="top" align="center">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+        <polyline points="10 17 15 12 10 7"/>
+        <line x1="15" y1="12" x2="3" y2="12"/>
+      </svg>
+    </td>
+    <td><strong>Git</strong> — to download the code.<br />Download from <a href="https://git-scm.com">git-scm.com</a>.</td>
+  </tr>
+  <tr>
+    <td width="48" valign="top" align="center">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+    </td>
+    <td><strong>A code editor</strong> (optional) — to edit files.<br />Download <a href="https://code.visualstudio.com">VS Code</a> (it is free).</td>
+  </tr>
+</table>
 
-### Public/auth
+<br />
 
-- `/login` — sign in
-- `/signup` — create account
+### Step 1 — Download the code
 
-### Dashboard
-
-- `/dashboard` — overview (recent templates + recent activity)
-- `/dashboard/templates` — list, filter, duplicate, delete, and browse prebuilt templates
-- `/dashboard/templates/new` — create a template shell
-- `/dashboard/templates/[id]` — full editor (content + preview + AI + test send)
-
-### API
-
-- `POST /api/seed` — seeds the authenticated user with sample categories, placeholders, and templates (no-op if user already has data)
-
----
-
-## Environment variables
-
-Copy the example env file and fill in values:
+Open your terminal (Command Prompt on Windows, Terminal on Mac).
 
 ```bash
-cp .env.example .env.local
+# Download the project
+git clone <repository-url>
+cd email-template-management
 ```
 
-If you use the provided schema setup script (see below), also create a `.env` file because the script reads from `.env`:
+> If you received a ZIP file instead, unzip it and navigate into the folder using the terminal.
+
+<br />
+
+### Step 2 — Create a Supabase account (free)
+
+Supabase is the database that stores your templates and users.
+
+1. Go to <a href="https://supabase.com">supabase.com</a> and click **Start your project**.
+2. Sign up with GitHub or email.
+3. Once logged in, click **New project**.
+4. Give your project a name (e.g. `MailForge`).
+5. Set a secure database password — **save this password somewhere safe**.
+6. Choose a region close to you and click **Create new project**.
+7. Wait about a minute for the database to be ready.
+
+<br />
+
+### Step 3 — Set up the database tables
+
+Once your Supabase project is ready:
+
+1. In the Supabase dashboard, go to the **SQL Editor** tab (left sidebar).
+2. Click **New query**.
+3. Open the file `supabase/schema.sql` from the MailForge folder in a text editor.
+4. Copy the entire contents of that file.
+5. Paste it into the SQL Editor in Supabase and click **Run**.
+6. You should see a success message. The database is now ready.
+
+<br />
+
+### Step 4 — Get your Supabase API keys
+
+1. In the Supabase dashboard, go to **Project Settings** (gear icon) &rarr; **API**.
+2. Copy the **Project URL** (looks like `https://xxxxx.supabase.co`).
+3. Copy the **anon public key** (a long string starting with `eyJ...`).
+
+<br />
+
+### Step 5 — Create a Resend account (free)
+
+Resend sends the test emails.
+
+1. Go to <a href="https://resend.com">resend.com</a> and sign up.
+2. In the dashboard, go to **API Keys** and create a new API key.
+3. Copy the key (it starts with `re_`).
+4. Go to **Domains** and add a domain you own, or use the sandbox domain provided by Resend for testing. Copy the sender email address (e.g. `onboarding@resend.dev`).
+
+<br />
+
+### Step 6 — Create an OpenRouter account (free)
+
+OpenRouter powers the AI assistant.
+
+1. Go to <a href="https://openrouter.ai/keys">openrouter.ai/keys</a> and sign up.
+2. Click **Create key**.
+3. Copy the API key.
+
+<br />
+
+### Step 7 — Configure the app
+
+1. In the MailForge folder, find the file named `.env.example`.
+2. Create a copy of this file and name it `.env.local`.
+3. Open `.env.local` in a text editor and fill in the values you copied:
 
 ```bash
-cp .env.example .env
+# Supabase (from Step 4)
+NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+
+# Resend (from Step 5)
+RESEND_API_KEY=re_xxxxxxxxxxxx
+RESEND_FROM=onboarding@your-domain.com
+
+# OpenRouter (from Step 6)
+OPENROUTER_API_KEY=your-openrouter-api-key
 ```
 
-Required variables (see [.env.example](.env.example)):
+> Replace everything after the `=` signs with your actual keys. Keep the quotes off.
 
-- `NEXT_PUBLIC_SUPABASE_URL` — Supabase project URL
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY` — Supabase anon key
-- `RESEND_API_KEY` — Resend API key (required for test sends)
-- `RESEND_FROM` — verified Resend sender (e.g. `onboarding@your-domain.com`)
-- `OPENROUTER_API_KEY` — OpenRouter key (required for AI assistant)
+<br />
 
----
-
-## Database setup (Supabase)
-
-The database schema lives in [supabase/schema.sql](supabase/schema.sql) and includes:
-
-- `categories` — user-owned categories
-- `placeholders` — user-owned placeholder dictionary (key + description + sample value)
-- `templates` — email templates (subject + Tiptap HTML/JSON + extracted placeholder list + status)
-- `email_logs` — logs for test sends (status + provider message ID)
-- `ai_logs` — logs for AI actions (action, model, token usage where available)
-- `rate_limit_counters` + `rate_limit_increment()` — simple per-user per-action counters for rate limiting
-
-All user data tables have **RLS enabled** with policies that restrict access to `owner_id = auth.uid()`.
-
-### Option A: Apply schema manually
-
-1. Create a Supabase project
-2. Open Supabase Dashboard → SQL Editor
-3. Paste the contents of [supabase/schema.sql](supabase/schema.sql) and run it
-
-### Option B: Apply schema via the included script
-
-This repo includes a helper that calls the Supabase Management API to apply the schema:
+### Step 8 — Install and start
 
 ```bash
-node scripts/setup-db.mjs <your-supabase-personal-access-token>
-```
-
-Notes:
-
-- Create a Personal Access Token in Supabase Dashboard → Account → Tokens.
-- The script extracts your project ref from `NEXT_PUBLIC_SUPABASE_URL` in `.env`.
-
----
-
-## Running locally
-
-Install dependencies:
-
-```bash
+# Install dependencies (this downloads all required packages)
 npm install
-```
 
-Start dev server:
-
-```bash
+# Start the app
 npm run dev
 ```
 
-Other useful commands:
+Once the command finishes, open your browser and go to:
 
-```bash
-npm run build
-npm run start
-npm run lint
-npm run typecheck
+<p align="center">
+  <a href="http://localhost:3000"><strong>http://localhost:3000</strong></a>
+</p>
+
+<br />
+
+### Step 9 — Create your account
+
+1. Click **Get started** on the landing page.
+2. Sign up with your email and a password.
+3. You will be taken to your dashboard.
+4. Visit `/api/seed` in your browser (add it after `http://localhost:3000`) to populate the app with sample templates and placeholders.
+
+<br />
+
+---
+
+<br />
+
+## Features
+
+<table>
+  <tr>
+    <td width="40" valign="top">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="16" y1="13" x2="8" y2="13"/>
+        <line x1="16" y1="17" x2="8" y2="17"/>
+        <polyline points="10 9 9 9 8 9"/>
+      </svg>
+    </td>
+    <td><strong>Rich template editor</strong> — A full-featured editor with headings, lists, tables, images, links, and more. What you see is what you get.</td>
+  </tr>
+  <tr>
+    <td width="40" valign="top">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+        <polyline points="10 17 15 12 10 7"/>
+        <line x1="15" y1="12" x2="3" y2="12"/>
+      </svg>
+    </td>
+    <td><strong>Live preview</strong> — See exactly how your email looks as you type, with desktop and mobile views.</td>
+  </tr>
+  <tr>
+    <td width="40" valign="top">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+        <path d="M2 17l10 5 10-5"/>
+        <path d="M2 12l10 5 10-5"/>
+      </svg>
+    </td>
+    <td><strong>Placeholder variables</strong> — Use <code>{{first_name}}</code>, <code>{{company_name}}</code> and insert real data when previewing or sending.</td>
+  </tr>
+  <tr>
+    <td width="40" valign="top">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+      </svg>
+    </td>
+    <td><strong>AI assistant</strong> — Generate subject lines, rewrite content, fix grammar, and more — all while preserving your placeholders.</td>
+  </tr>
+  <tr>
+    <td width="40" valign="top">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+        <polyline points="22 6 12 13 2 6"/>
+      </svg>
+    </td>
+    <td><strong>Test sending</strong> — Send real test emails to yourself before using a template. Full send history is tracked.</td>
+  </tr>
+</table>
+
+<br />
+
+---
+
+<br />
+
+## Project structure
+
+```
+email-template-management/
+├── app/                    # Application pages and layouts
+│   ├── dashboard/          # Dashboard (home, templates, editor)
+│   ├── login/              # Sign in page
+│   ├── signup/             # Create account page
+│   ├── globals.css         # Global styles
+│   └── page.tsx            # Landing page
+├── src/
+│   ├── components/         # Reusable UI components
+│   │   ├── ui/             # shadcn/ui components (button, input, etc.)
+│   │   ├── templates/      # Template editor, AI assistant, send test
+│   │   ├── layout/         # Sidebar, header, navigation
+│   │   └── editor/         # TipTap editor extensions
+│   ├── hooks/              # Custom React hooks
+│   ├── lib/                # Utilities (email rendering, placeholders)
+│   ├── server/             # Server actions (auth, templates, AI, email)
+│   └── types/              # TypeScript type definitions
+├── supabase/
+│   └── schema.sql          # Database schema (run this in Supabase)
+├── scripts/
+│   └── setup-db.mjs        # Optional automated DB setup script
+├── .env.example            # Environment variable template
+└── package.json            # Project dependencies and scripts
 ```
 
----
-
-## Core product behaviors (important details)
-
-### 1) Placeholders
-
-- Placeholder syntax is `{{ key }}` (spaces are allowed inside braces).
-- Allowed placeholder keys match: `^[a-zA-Z0-9_.-]+$`.
-- When you save a template, MailForge:
-	- sanitizes the HTML,
-	- extracts placeholders from **subject + body**,
-	- stores the placeholder list on the template.
-
-### 2) Preview rendering
-
-Templates can be previewed using a JSON object of mock data.
-
-- Missing values render as empty strings.
-- Placeholder values are inserted into the HTML as **escaped text** (to prevent injection).
-- Preview rendering returns a full HTML document wrapper suitable for email clients.
-
-### 3) HTML sanitization
-
-Email HTML is sanitized (allowlist-based) before storage and before rendering. Links are forced to open in a new tab with safe `rel` attributes.
-
-### 4) “Button link” rendering
-
-If an anchor tag is marked with `data-button="true"`, rendering applies email-safe inline button styling.
-
-### 5) AI assistant
-
-The AI assistant uses OpenRouter’s chat-completions API.
-
-- Supports actions like: generate, rewrite tone, shorten, expand, generate CTA, generate subject lines, fix grammar, etc.
-- Applies per-user rate limiting.
-- Logs actions to `ai_logs` including model used and token counts (when returned by provider).
-- Enforces a critical rule: **placeholders like `{{first_name}}` must be preserved exactly**.
-
-### 6) Test email sending
-
-Test sends go through Resend.
-
-- Rate limited per-user.
-- Each attempt (success or failure) is logged to `email_logs`.
-- The editor UI shows recent send history for the template.
+<br />
 
 ---
 
-## Seed data (prebuilt templates)
+<br />
 
-MailForge ships with a set of **prebuilt templates** and default categories/placeholders.
+## Available commands
 
-- You can browse prebuilt templates immediately.
-- Clicking “Save to my account” seeds your own rows (categories, placeholders, templates) under your user.
+| Command | What it does |
+|---|---|
+| `npm run dev` | Start the app in development mode (for building/testing) |
+| `npm run build` | Create an optimized production build |
+| `npm start` | Start the production server (after building) |
+| `npm run lint` | Check code for errors and style issues |
+| `npm run typecheck` | Verify TypeScript types are correct |
 
----
-
-## Security model
-
-- **Supabase RLS** prevents cross-user access.
-- **HTML sanitization** reduces risk from unsafe content in templates.
-- **Placeholder substitution escapes HTML** (values are treated as plain text).
-- **Rate limiting** is implemented in Postgres via `rate_limit_increment()` and is designed to **fail closed**.
+<br />
 
 ---
 
-## Middleware note (auth redirects)
+<br />
 
-This repo contains auth/session middleware logic in [proxy.ts](proxy.ts), which refreshes Supabase sessions and redirects:
+## Deploying to Vercel (for production)
 
-- Unauthenticated users away from `/dashboard/*` to `/login`
-- Authenticated users away from `/login` and `/signup` to `/dashboard`
+1. Push your code to a GitHub repository.
+2. Go to <a href="https://vercel.com">vercel.com</a> and sign up with GitHub.
+3. Click **Add new** &rarr; **Project** and select your repository.
+4. In the **Environment Variables** section, add the four keys from Step 7.
+5. Click **Deploy** — Vercel will build and publish your site.
+6. Your app will be live at a `*.vercel.app` URL.
 
-In a standard Next.js setup, middleware runs from `middleware.ts`. If you want this behavior enabled, re-export the `proxy` function from a `middleware.ts` file.
+<br />
 
 ---
+
+<br />
 
 ## Troubleshooting
 
-### “Some tables may not exist yet”
+<table>
+  <tr>
+    <td width="32" valign="top">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+    </td>
+    <td><strong>"Some tables may not exist yet"</strong> — You need to run the schema from <code>supabase/schema.sql</code> in the Supabase SQL Editor.</td>
+  </tr>
+  <tr>
+    <td width="32" valign="top">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+    </td>
+    <td><strong>"OPENROUTER_API_KEY not configured"</strong> — Set your OpenRouter key in <code>.env.local</code> and restart the app.</td>
+  </tr>
+  <tr>
+    <td width="32" valign="top">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+    </td>
+    <td><strong>Resend send fails</strong> — Make sure your API key is correct and your sender email is verified in Resend.</td>
+  </tr>
+  <tr>
+    <td width="32" valign="top">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+    </td>
+    <td><strong>"npm not found"</strong> — Node.js is not installed. Download it from <a href="https://nodejs.org">nodejs.org</a> and try again.</td>
+  </tr>
+</table>
 
-Apply the schema from [supabase/schema.sql](supabase/schema.sql) and refresh.
-
-### AI assistant says “OPENROUTER_API_KEY not configured”
-
-Set `OPENROUTER_API_KEY` in your env file(s) and restart the dev server.
-
-### Resend send fails
-
-- Confirm `RESEND_API_KEY` is valid.
-- Confirm `RESEND_FROM` is a verified sender/domain in Resend.
+<br />
 
 ---
 
-## License
+<br />
 
-ISC (see package metadata).
+<p align="center">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.4">
+    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+  </svg>
+  <br />
+  <sub>Built with Next.js, Supabase, TipTap, Resend, and OpenRouter</sub>
+</p>
